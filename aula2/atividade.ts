@@ -1,10 +1,17 @@
+const {parse} = require('csv-parse')
+const fs = require('fs')
+
 const ignore:Array<string> = ["de", "da", "dos", "do"]
 
-function csvParser (csv:string):Object {
-    const nameArray:Array<string> = csv.split(";");
+async function parseCsv() {
+    const content = await fs.readFile(`./nomes.csv`);
+    const records = parse(content)
 
-    return nameArray
-} 
+    return records
+
+}
+
+console.log(parseCsv())
 
 function format(string:string):string {
     const lower:string = string.toLowerCase()
@@ -38,5 +45,3 @@ function testIgnore(str:string):string | number {
 //         virtual.
 //     });
 // }
-
-console.log(csv)
