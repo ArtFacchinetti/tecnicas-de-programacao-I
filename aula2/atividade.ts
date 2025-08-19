@@ -1,4 +1,3 @@
-import csv from './lertext.ts'
 const ignore:Array<string> = ["de", "da", "dos", "do"]
 
 function csvParser (csv:string):Object {
