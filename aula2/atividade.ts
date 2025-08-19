@@ -1,47 +1,19 @@
-const {parse} = require('csv-parse')
-const fs = require('fs')
+import { readFile } from 'fs/promises';
+import { parse } from 'csv-parse/sync'; // versão síncrona é mais simples pra começar
 
-const ignore:Array<string> = ["de", "da", "dos", "do"]
 
-async function parseCsv() {
-    const content = await fs.readFile(`./nomes.csv`);
-    const records = parse(content)
+const csv = async function parseCsv() {
+    const content = await readFile('./nomes.csv', 'utf-8');
 
-    return records
-
-}
-
-console.log(parseCsv())
-
-function format(string:string):string {
-    const lower:string = string.toLowerCase()
-    const lowerTrim:string = lower.trim()
-
-    if (testIgnore(lowerTrim) == 1 ){
-        console.log('Não ignorado')
-        const firstToUpper:string = lowerTrim.charAt(0).toUpperCase() + lowerTrim.slice(1)
-
-        return firstToUpper
-    }else {
-        return lowerTrim
-    }
-}
-
-function testIgnore(str:string):string | number {
-    const foundWord = ignore.find((ignoredWord: string) => {
-        return str === ignoredWord;
+    const records = parse(content, {
+        columns: false, // usa a 1ª linha como cabeçalho
+        skip_empty_lines: true,
+        trim: true
     });
 
-    return 1
+    return records
 }
 
-// function formatArray(array:string[]):string {
-//     let virtual:string[] = []
-//     array.forEach(name => {
-//         const words:string[] = name.split(" ")
-//         words.forEach(word => {
-//             format(word)
-//         })
-//         virtual.
-//     });
-// }
+csv().then((data)=>{
+    console.log(data)
+})
