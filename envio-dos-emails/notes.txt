@@ -1,0 +1,1 @@
+Variáveis dentro de classses chama-se: Atributo :)
